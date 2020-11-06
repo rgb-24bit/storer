@@ -1,9 +1,11 @@
 package storer
 
 import (
+	"reflect"
+
 	"github.com/iancoleman/strcase"
 	"github.com/mitchellh/mapstructure"
-	"reflect"
+	"github.com/rgb-24bit/storer/internal"
 )
 
 func NewMapStructureDecoder(out interface{}, hooks ...mapstructure.DecodeHookFunc) (*mapstructure.Decoder, error) {
@@ -22,19 +24,15 @@ func MapKeyToCamelHookFunc() mapstructure.DecodeHookFunc {
 			return data, nil
 		}
 
+		if !internal.IsMapType(data) {
+			return data, nil
+		}
+
+		sm := internal.ToMapStringInterface(data)
 		nm := make(map[string]interface{})
 
-		switch data := data.(type) {
-		case map[string]interface{}:
-			for k, v := range data {
-				nm[strcase.ToCamel(k)] = v
-			}
-		case map[interface{}]interface{}:
-			for k, v := range data {
-				nm[strcase.ToCamel(k.(string))] = v
-			}
-		default:
-			return data, nil
+		for k, v := range sm {
+			nm[strcase.ToCamel(k)] = v
 		}
 
 		return nm, nil
