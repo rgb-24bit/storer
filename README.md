@@ -2,6 +2,10 @@
 
 > Go configuration reading and deserialization
 
+# Design
+
+![](https://user-images.githubusercontent.com/26481411/168970797-616ebc3e-cf23-479f-aa56-ffaf87c083cb.png)
+
 # Introduction
 
 Now this library is just a simple idea. It reads the deserialization configuration through a general rule and maintains good expansibility.

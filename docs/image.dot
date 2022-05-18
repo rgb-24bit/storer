@@ -1,0 +1,22 @@
+strict graph {
+    node [shape=box];
+
+    JSONDecoded [label="map[string]interface{}"];
+    YAMLDecoded [label="map[string]interface{}"];
+    XXXXDecoded [label="map[string]interface{}"];
+    MAP [label="map[string]interface{}"];
+
+    JSON -- JSONDecoded [label="deserialize"];
+    YAML -- YAMLDecoded [label="deserialize"];
+    XXXX -- XXXXDecoded [label="deserialize"];
+
+    JSONDecoded -- MAP [label="merge"];
+    YAMLDecoded -- MAP [label="merge"];
+    XXXXDecoded -- MAP [label="merge"];
+
+    MAP -- struct [label="convert key as Camel style & decode by mapstructure"];
+
+    struct -- defaults;
+
+    defaults -- validate
+}
